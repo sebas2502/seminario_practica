@@ -1,7 +1,7 @@
 use multiplast;
 
 create table cliente(
-	dni INT PRIMARY KEY,
+    dni INT PRIMARY KEY,
     apenom VARCHAR(80),
     direccion VARCHAR(100),
     email VARCHAR(50),
