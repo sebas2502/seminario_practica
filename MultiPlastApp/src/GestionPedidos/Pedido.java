@@ -21,38 +21,36 @@ public abstract class Pedido {
    protected int dniCliente;
    protected String apenomCli;
    protected String estado = "pendiente";
-   protected List<Producto> productos = new ArrayList<>();
+   protected List<Producto> productos;
    protected String tipoEntrega = "";
    protected Date fechaEntrega = new Date();
-   protected boolean materiaPrimaDisponible = false;
+ 
    
-   public Pedido(String descripcion, int dniCliente, String apenomCli, List<Producto> productos, int nroPedido, String estado, boolean materiaPrimaDisponible, String tipoEntrega, Date fechaEntrega){
+   public Pedido(String descripcion, int dniCliente, String apenomCli, int nroPedido, String estado, String tipoEntrega, Date fechaEntrega){
        this.nroPedido = nroPedido;
        this.descripcion = descripcion;
        this.dniCliente = dniCliente;
        this.apenomCli = apenomCli;
-       this.productos = productos;
        this.estado = estado;
        this.tipoEntrega = tipoEntrega;
        this.fechaEntrega = fechaEntrega;
     }
    
-   Deposito deposito = new Deposito("Quintero Julian");
+  
    
    //Metodos publicos
    
    
    
-   public void agregarProductos(){
-       Producto p1 = new Producto("Pileta embutida 5 x 10",600000,1);
-       Producto p2 = new Producto("Baños quimicos",200000,4);
-       productos.add(p1);
-       productos.add(p2);
+   public void agregarProductos(List<Producto> prods){
+      
+       productos = prods;
+       
    }
    
    public void iniciarPedido() throws PedidoExcepcion{
-       if( deposito.verificarMateriaPrima() ){
-            estado = "en proceso";
+       if( estado == "pendiente" ){
+            
             System.out.println("El pedido "+nroPedido+" comenzó a elaborarse");
        }else{
            throw new PedidoExcepcion("No hay materia prima disponible para comenzar a elaborar el pedido "+nroPedido);
@@ -104,7 +102,8 @@ public abstract class Pedido {
                 case 1 : iniciarPedido();
                 case 2 : finalizarPedido();
                 case 3 : cancelarPedido();
-                case 4 : deposito.despachar();
+                case 4 : Deposito deposito = new Deposito("Quintero Julian");
+                         deposito.despachar();
                 case 5 : flag = false;
             }
             

@@ -38,7 +38,8 @@ public class Deposito {
  
     
   
-   public boolean verificarMateriaPrima(){
+   //Simulamos un proceso de verificacion de materias primas existentes mediante una funcion random  
+   public boolean verificarMateriaPrima(int codProd){
        Random random = new Random();
    
        return random.nextBoolean();

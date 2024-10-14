@@ -16,8 +16,8 @@ public class PedidoEnSucursal extends Pedido{
     private double porcentajeDescuento;
     private String direccion;
     
-    public PedidoEnSucursal(String descripcion, int dniCliente, String apenomCli, List<Producto> productos, int nroPedido, String estado, boolean materiaPrimaDisponible,String tipoEntrega, Date fechaEntrega, int nroSucursal, String direccion) {
-        super(descripcion,dniCliente,apenomCli,productos,nroPedido,estado,materiaPrimaDisponible,tipoEntrega,fechaEntrega);
+    public PedidoEnSucursal(String descripcion, int dniCliente, String apenomCli, int nroPedido, String estado, String tipoEntrega, Date fechaEntrega, int nroSucursal, String direccion) {
+        super(descripcion,dniCliente,apenomCli,nroPedido,estado,tipoEntrega,fechaEntrega);
         this.nroSucursal = nroSucursal;
         this.direccion = direccion;
     }

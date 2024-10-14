@@ -9,13 +9,16 @@ package GestionPedidos;
  * @author sebac
  */
 public class Producto {
+    private int codProd;
     private String nombre;
     private double precio;
-    private int cantidad;
+    private int cantidad = 0;
+   
 
-    public Producto(String nombre, double precio, int cantidad) {
+    public Producto(int codProd, String nombre, double precio, int cantidad) {
         this.nombre = nombre;
         this.precio = precio;
+        this.codProd = codProd;
         this.cantidad = cantidad;
     }
 
