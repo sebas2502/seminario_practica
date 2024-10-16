@@ -44,22 +44,65 @@ public class GestionPedidos {
         
         
          //En este apartado, creamos unos pedidos para almacenar en una lista simulando una base de datos 
-         Pedido p1 = new PedidoEnSucursal("banios quimicos para evento",40263304,"Contreras Ricardo",1,"en proceso","en sucursal",fecha1,1,"Avenida 9 De Julio 1234");
-         Pedido p2 = new PedidoEnSucursal("Containers de basuras industrial, tachos de basuras",12263304,"Gomez Ramon",2,"pendiente","en sucursal",fecha2,2,"Avenida Independencia 34");
-         Pedido p3 = new PedidoAdomicilio("bolsones de plastico x 40 unidades",11263304,"Duarte Manuel",3,"pendiente","a domicilio",fecha3,5000);
-         Pedido p4 = new PedidoAdomicilio("Tubos PVC 10mm de diametro x 3m x 100 unidades",43263304,"Correa Maira",4,"en proceso","a domicilio",fecha4,4200);
+         Pedido pedido1 = new PedidoEnSucursal("pedido de banios quimicos para evento",40263304,"Contreras Ricardo",1,"en proceso","en sucursal",fecha1,1,"Avenida 9 De Julio 1234");
+         Pedido pedido2 = new PedidoEnSucursal("containers de basura para minera de salta, tachos de basuras",12263304,"Gomez Ramon",2,"pendiente","en sucursal",fecha2,2,"Avenida Independencia 34");
+         Pedido pedido3 = new PedidoAdomicilio("bolsones para utencilios varios",11263304,"Duarte Manuel",3,"pendiente","a domicilio",fecha3,5000);
+         Pedido pedido4 = new PedidoAdomicilio("tuberia plastica para instalacion de cloaca",43263304,"Correa Maira",4,"en proceso","a domicilio",fecha4,4200);
+        
+        //Aqui creamos unos productos que luego seran agreagdos a las listas de productos
+        Producto prd1 = new Producto(1,"banios quimicos",600000,6);
+        Producto prd2 = new Producto(2,"container de basura industrial",1000000,2);
+        Producto prd3 = new Producto(3,"bolsones de plastico 1mt x 0,5mt",600,600);
+        Producto prd4 = new Producto(4,"Tubos PVC 10mm de diametro x 3m",5000,100);
+        Producto prd5 = new Producto(5,"tachos de basura chico",1500,10);
+        Producto prd6 = new Producto(6,"bujes de grilon 9mm x 10cm",7000,10);
+        
+        //Aqui creamos la lista de cada pedido
+        List<Producto> lista1 = new ArrayList<>();
+        List<Producto> lista2 = new ArrayList<>();
+        List<Producto> lista3 = new ArrayList<>();
+        List<Producto> lista4 = new ArrayList<>();
+        
+        //Aqui agreagmos los productos a cada lista
+        
+        //A la lista 1 agreamos los productos prd1 y prd2
+        lista1.add(prd1);
+        lista1.add(prd5);
+        
+               
+        
+        //A la lista 2 agreamos el producto prd2
+        lista2.add(prd2);
+        
+        //A la lista 3 agreamos el producto prd3
+        lista3.add(prd3);
+        
+        //A la lista 4 agreamos los productos prd4 y prd6
+        lista4.add(prd4);
+        lista4.add(prd6);
+        
+        
+        
+        //Aqui agreagamos cada lista de productos a su pedido correspondiente
+        pedido1.agregarProductos(lista1);
+        pedido2.agregarProductos(lista2);
+        pedido3.agregarProductos(lista3);
+        pedido4.agregarProductos(lista4); 
+        
+        
         
         
        
         
-        //Agregamos a la lista de pedidos, los pedidos creados anteriormente
+        
         
         Produccion produccion = new Produccion("Correa Diego"); //Instancia de la clase produccion con su constructor que recibe como valor el "encargado" de produccion
         
-        produccion.agregarPedido(p1);
-        produccion.agregarPedido(p2);
-        produccion.agregarPedido(p3);
-        produccion.agregarPedido(p4);
+        //Agregamos a la lista de pedidos, los pedidos creados anteriormente
+        produccion.agregarPedido(pedido1);
+        produccion.agregarPedido(pedido2);
+        produccion.agregarPedido(pedido3);
+        produccion.agregarPedido(pedido4);
         
         boolean flag = true;
         
@@ -89,7 +132,8 @@ public class GestionPedidos {
                     
                     List<Producto> productos = new ArrayList(); 
                     scanner.nextLine();
-                    
+                        
+                        //Se solicita la modalidad de entrega del pedido
                         System.out.println("Ingrese tipo de entrega: 1 - sucursal / 2 - domicilio");
                     
                         String tipoEntrega = scanner.nextLine();
@@ -121,7 +165,7 @@ public class GestionPedidos {
                           seAgregaronProductos = true;
                           
                          }else{
-                         System.out.println("Materias primas no disponibles para elaborar el producto");
+                         throw new PedidoExcepcion("Materias primas no disponibles para elaborar el producto");
                         }
                         
 
@@ -242,8 +286,8 @@ public class GestionPedidos {
                           
                             break;
                        }else{
-                           System.out.println("No se puede iniciar el pedido numero "+pedido.nroPedido+", por favor consulte el estado del mismo");
-                           break;
+                           throw new PedidoExcepcion("No se puede iniciar el pedido numero "+pedido.nroPedido+", por favor consulte el estado del mismo");
+                           
                        }
                        
                       
@@ -256,8 +300,7 @@ public class GestionPedidos {
               
            
           }      
-                
-          
+                          
                 case 3 -> {
             
               System.out.println("Ingrese numero de pedido");
@@ -287,8 +330,7 @@ public class GestionPedidos {
                  System.out.println("El pedido no existe...");
               }
           }
-          
-          
+                          
                 case 4 -> {
                     System.out.flush();
                     System.out.println("       Lista de pedidos");
@@ -296,8 +338,7 @@ public class GestionPedidos {
                     produccion.listarPedidos();
               
                  }   
-          
-                
+                                
                 case 5 -> {
                   System.out.println("Ingrese numero de pedido");
                   int nroPedido  = scanner.nextInt();
@@ -327,8 +368,7 @@ public class GestionPedidos {
                         System.out.println("El pedido no existe, vuelva al menu principal e ingrese nuevamente el numero de pedidos");
                     }
           }
-                      
-               
+                               
                 case 6 -> {
               
                     System.out.println("Ingrese numero de pedido");
@@ -359,8 +399,7 @@ public class GestionPedidos {
                    }
 
                }
-          
-                
+                                
                 case 7 ->{
 
                       System.out.println("Hasta luego!...");
