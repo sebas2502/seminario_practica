@@ -36,6 +36,7 @@ public abstract class Pedido {
        this.estado = estado;
        this.tipoEntrega = tipoEntrega;
        this.fechaEntrega = fechaEntrega;
+       this.productos = new ArrayList<>();
     }
    
   
@@ -46,6 +47,18 @@ public abstract class Pedido {
    public String getEstado(){
        return this.estado;
    }
+   
+   public String getDescripcion(){
+       return descripcion;
+   }
+   
+   public int getNro(){
+       return nroPedido;
+   }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
  
     public String getFecha(){
         Date fecha = new Date();
@@ -57,8 +70,14 @@ public abstract class Pedido {
    
    public void agregarProductos(List<Producto> prods){
       
-       productos = prods;
+       productos.addAll(prods);
        
+   }
+   
+   public void listarProductos(){
+       for(Producto producto : this.productos){
+           System.out.println("=> "+producto.getNombre());
+       }
    }
    
    public void iniciarPedido() throws PedidoExcepcion{
@@ -96,7 +115,7 @@ public abstract class Pedido {
        } 
    }
    
-   public void actualizarEstado() throws PedidoExcepcion{
+  /* public void actualizarEstado() throws PedidoExcepcion{
        Scanner scanner = new Scanner(System.in);
        boolean flag = true;
        while (flag) {
@@ -121,7 +140,7 @@ public abstract class Pedido {
             }
             
         }
-   }
+   } */
    
    //Metodos abstractos
    public abstract double generarImporte();

@@ -53,6 +53,7 @@ public class Produccion {
     
     public void listarPedidos(){
         for(Pedido pedido : pedidos){
+            System.out.println("Numero de pedido: "+pedido.nroPedido);
             System.out.println("Cliente: "+pedido.apenomCli);
             System.out.println("Descripcion: "+pedido.descripcion);
             System.out.println("Estado: "+pedido.getEstado());
