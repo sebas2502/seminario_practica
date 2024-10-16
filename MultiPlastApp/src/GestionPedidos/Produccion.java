@@ -15,13 +15,14 @@ public class Produccion {
     private String encargado;
     private List<Pedido> pedidos; 
     
-    public Produccion(String encargado, List<Pedido> pedidos){
+    public Produccion(String encargado){
         this.encargado = encargado;
-        this.pedidos = pedidos; 
+        this.pedidos = new ArrayList<>();
+        
     }
     
-    public void agregarPedidos(Pedido pedido){
-        pedidos.add(pedido);
+    public void agregarPedido(Pedido pedido){
+        this.pedidos.add(pedido);
     }
     
     public void iniciarPedido(int codPedido) throws PedidoExcepcion{
@@ -50,8 +51,14 @@ public class Produccion {
       }
     }
     
-    public List<Pedido> listarPedidos(){
-        return pedidos;
+    public void listarPedidos(){
+        for(Pedido pedido : pedidos){
+            System.out.println("Cliente: "+pedido.apenomCli);
+            System.out.println("Descripcion: "+pedido.descripcion);
+            System.out.println("Estado: "+pedido.getEstado());
+            System.out.println("Fecha de entrega: "+pedido.getFecha());
+            System.out.println("==============================================================");
+        }
     }
 
     public String getEncargado() {

@@ -4,6 +4,7 @@
  */
 package GestionPedidos;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +25,7 @@ public abstract class Pedido {
    protected List<Producto> productos;
    protected String tipoEntrega = "";
    protected Date fechaEntrega = new Date();
+   protected Double importe;
  
    
    public Pedido(String descripcion, int dniCliente, String apenomCli, int nroPedido, String estado, String tipoEntrega, Date fechaEntrega){
@@ -41,6 +43,17 @@ public abstract class Pedido {
    //Metodos publicos
    
    
+   public String getEstado(){
+       return this.estado;
+   }
+ 
+    public String getFecha(){
+        Date fecha = new Date();
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+        String fechaString = formatoFecha.format(fecha);
+        
+        return fechaString;
+   }
    
    public void agregarProductos(List<Producto> prods){
       

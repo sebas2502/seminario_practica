@@ -15,7 +15,7 @@ public class PedidoAdomicilio extends Pedido{
     private double importe;
     private double adicionalEnvio; 
 
-    public PedidoAdomicilio(String descripcion, int dniCliente, String apenomCli, int nroPedido, String estado, boolean materiaPrimaDisponible, String tipoEntrega, Date fechaEntrega,double adicionalEnvio) {
+    public PedidoAdomicilio(String descripcion, int dniCliente, String apenomCli, int nroPedido, String estado, String tipoEntrega, Date fechaEntrega,double adicionalEnvio) {
         super(descripcion,dniCliente,apenomCli,nroPedido,estado,tipoEntrega,fechaEntrega);
         this.adicionalEnvio = adicionalEnvio;
         this.importe = importe;
