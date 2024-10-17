@@ -20,6 +20,7 @@ public class PedidoEnSucursal extends Pedido{
         super(descripcion,dniCliente,apenomCli,nroPedido,estado,tipoEntrega,fechaEntrega);
         this.nroSucursal = nroSucursal;
         this.direccion = direccion;
+        
     }
 
     public int getNroSucursal() {
@@ -49,27 +50,21 @@ public class PedidoEnSucursal extends Pedido{
     
     
     @Override
-    public double generarImporte() {
-       if(estado.equals("en proceso")){  //Una vez que el pedido se encuentra en produccion, se procede a generar el importeFinal
+    public double generarImporte(double descuento) {
+       
             double importeCalculado = 0.0;
             
             for(Producto producto : productos){
-                importeCalculado += producto.getPrecio();
+                importeCalculado += (producto.getPrecio()) * producto.getCantidad();
             }
             
-            importeCalculado = importeCalculado - ((importeCalculado*porcentajeDescuento)/100);
+            importeCalculado = importeCalculado - ((importeCalculado*descuento)/100);
             
             return importeCalculado;
-        }else{
-            System.out.println("El pedido" + nroPedido + "aun no ha sido iniciado");
-            return 0.0;
-        }  
+       
     }
 
-    @Override
-    public void procesarPedido() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+   
 
         
     

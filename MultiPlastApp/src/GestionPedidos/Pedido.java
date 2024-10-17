@@ -76,7 +76,7 @@ public abstract class Pedido {
    
    public void listarProductos(){
        for(Producto producto : this.productos){
-           System.out.println("=> "+producto.getNombre());
+           System.out.println("=> "+producto.getNombre() + " " + producto.getCantidad() + " unidades");
        }
    }
    
@@ -143,8 +143,8 @@ public abstract class Pedido {
    } */
    
    //Metodos abstractos
-   public abstract double generarImporte();
-   public abstract void procesarPedido();
+   public abstract double generarImporte(double porcentaje);
+  
     
     
 }

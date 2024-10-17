@@ -42,29 +42,22 @@ public class PedidoAdomicilio extends Pedido{
     
  
     @Override
-    public double generarImporte() {
-        if(estado.equals("en proceso")){  //Una vez que el pedido se encuentra en produccion, se procede a generar el importeFinal
+    public double generarImporte(double porcentajeEnvio) {
+          
             double importeCalculado = 0.0;
             
             for(Producto producto : productos){
-                importeCalculado += producto.getPrecio();
+                importeCalculado += (producto.getPrecio()) * producto.getCantidad();
             }
             
-            importeCalculado = importeCalculado + adicionalEnvio;
+            importeCalculado = importeCalculado + ((importeCalculado * porcentajeEnvio)/100);
             
             return importeCalculado;
-        }else        {
-            System.out.println("El pedido" + nroPedido + "aun no ha sido iniciado");
-            return 0.0;
-        }
-        
+              
         
     }
 
-    @Override
-    public void procesarPedido() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+   
 
    
  

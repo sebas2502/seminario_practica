@@ -84,9 +84,9 @@ public class GestionPedidos {
         
         
         //Aqui agreagamos cada lista de productos a su pedido correspondiente
-        pedido1.agregarProductos(lista1);
-        pedido2.agregarProductos(lista2);
-        pedido3.agregarProductos(lista3);
+        pedido1.agregarProductos(lista1); pedido1.importe = pedido1.generarImporte(10);
+        pedido2.agregarProductos(lista2); 
+        pedido3.agregarProductos(lista3); pedido3.importe = pedido3.generarImporte(10);
         pedido4.agregarProductos(lista4); 
         
         
@@ -110,13 +110,15 @@ public class GestionPedidos {
         
         while (flag) {
             System.out.println("===============================================");
-            System.out.println("1 - Agregar Pedido");
-            System.out.println("2 - Iniciar Pedido");
-            System.out.println("3 - Finalizar Pedido");
-            System.out.println("4 - Listar pedidos");
-            System.out.println("5 - Buscar Pedido");
-            System.out.println("6 - Despachar Pedido");
-            System.out.println("7 - Salir");
+            System.out.println("********Bienvenido a MultiPlast System*********");
+            System.out.println("===============================================");
+            System.out.println("(1) Agregar Pedido");
+            System.out.println("(2) Iniciar Pedido");
+            System.out.println("(3) Finalizar Pedido");
+            System.out.println("(4) Listar pedidos");
+            System.out.println("(5) Buscar Pedido");
+            System.out.println("(6) Despachar Pedido");
+            System.out.println("(7) Salir");
             System.out.println("===============================================");
             System.out.println("Ingrese una opcion: ");
             
@@ -207,16 +209,19 @@ public class GestionPedidos {
                          System.out.println("Ingrese porcentaje de descuento");
                          double descuento = scanner.nextDouble(); 
                          
-                         scanner.nextLine();
+                          scanner.nextLine();
                           SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");    
-                        System.out.println("ingrese fecha de entrega del pedido (dd/mm/aaaa)");
-                       String fechaInput = scanner.nextLine();
+                          System.out.println("ingrese fecha de entrega del pedido (dd/mm/aaaa)");
+                          String fechaInput = scanner.nextLine();
                      
                        try {
                          Date fecha = dateFormat.parse(fechaInput);
                          Pedido pedido = new PedidoEnSucursal(desc,dniCli,apenomCli,nroPedido,"pendiente",tipoEntrega,fecha,nroSucursal,dirSucursal);
                          pedido.agregarProductos(productos);
+                         
+                         pedido.importe = pedido.generarImporte(descuento);
                          produccion.agregarPedido(pedido);
+                         
                          System.out.println("Pedido registrado con exito...");
                          
                          
@@ -243,6 +248,8 @@ public class GestionPedidos {
                               try {
                              Date fecha = dateFormat.parse(fechaInput);
                              Pedido pedido = new PedidoAdomicilio(desc,dniCli,apenomCli,nroPedido,"pendiente",tipoEntrega,fecha,costoEnvio);
+                             pedido.agregarProductos(productos);
+                             pedido.importe = pedido.generarImporte(costoEnvio);
                              produccion.agregarPedido(pedido);
                              System.out.println("Pedido registrado con exito...");
                              System.out.println("Lista de productos agregados al pedido");
@@ -357,6 +364,7 @@ public class GestionPedidos {
                            System.out.println("Fecha de entrega: "+pedido.getFecha());
                            System.out.println("Productos:");
                            pedido.listarProductos();
+                           System.out.println("Importe: "+pedido.importe);
                            
                            System.out.println("========================================");
                            break;
@@ -405,6 +413,10 @@ public class GestionPedidos {
                       System.out.println("Hasta luego!...");
                       flag  = false;
                 }    
+                
+                default -> {
+                      System.out.println("Opcion no disponible...");
+                }
 
                     
                                           

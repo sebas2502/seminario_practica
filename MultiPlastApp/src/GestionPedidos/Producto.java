@@ -28,6 +28,10 @@ public class Producto {
         return nombre;
     }
 
+    public int getCantidad() {
+        return cantidad;
+    }
+    
     public double getPrecio() {
         return precio;
     }
