@@ -76,44 +76,62 @@ public abstract class Pedido {
    
    public void listarProductos(){
        for(Producto producto : this.productos){
-           System.out.println("=> "+producto.getNombre() + " " + producto.getCantidad() + " unidades");
+        System.out.println("=> "+producto.getNombre() + " " + producto.getCantidad() + " unidad/es");
        }
    }
    
-   public void iniciarPedido() throws PedidoExcepcion{
+   public void iniciar() throws PedidoExcepcion{
        if( estado == "pendiente" ){
-            
-            System.out.println("El pedido "+nroPedido+" comenzó a elaborarse");
+            estado = "en proceso";
+            throw new PedidoExcepcion("El pedido "+nroPedido+" comenzo a elaborarse");
        }else{
-           throw new PedidoExcepcion("No hay materia prima disponible para comenzar a elaborar el pedido "+nroPedido);
+           throw new PedidoExcepcion("No es posible iniciar el pedido, por favor consulte el estado del mismo");
        }
    }
    
-   public void finalizarPedido() throws PedidoExcepcion{
+   public void finalizar() throws PedidoExcepcion{
        if(estado == "en proceso"){
            estado  = "finalizado";
-           System.out.println("Se finalizó el pedido "+nroPedido);
+          throw new PedidoExcepcion("Se finalizó el pedido "+nroPedido);
        }else{
            if(estado == "pendiente"){
-               throw new PedidoExcepcion("El pedido "+nroPedido+" aun no comenzó a elaborarse");
+               throw new PedidoExcepcion("El pedido "+nroPedido+" aun no comenzo a elaborarse");
            }else{
                throw new PedidoExcepcion("El pedido "+nroPedido+" se ha finalizado con exito");
            }
        }
    }
    
-   public void cancelarPedido() throws PedidoExcepcion{
+   public void cancelar() throws PedidoExcepcion{
        if(estado == "pendiente"){
-           System.out.println("El pedido "+nroPedido+" se ha cancelado");
+           this.estado = "cancelado";
+           throw new PedidoExcepcion("El pedido "+nroPedido+" se ha cancelado");
        }else{
            if(estado == "en proceso"){
-               throw new PedidoExcepcion("El pedido "+nroPedido+" no puede cancelarse porque ya está en produccion");
+               throw new PedidoExcepcion("El pedido "+nroPedido+" no puede cancelarse porque ya esta en produccion");
            }else{
-               throw new PedidoExcepcion("El pedido "+nroPedido+" no puede cancelarse porque ya está finalizado");
+               if(estado == "finalizado"){
+                   throw new PedidoExcepcion("El pedido "+nroPedido+" no puede cancelarse porque ya esta finalizado");
+               }else{
+                   throw new PedidoExcepcion("El pedido "+nroPedido+" no puede cancelarse porque ya esta cancelado");
+               }
            }
                
        } 
    }
+   
+    public void despachar() throws PedidoExcepcion{
+        if(estado == "pendiente"){
+          throw new PedidoExcepcion("El pedido "+nroPedido+" no ha comenzado a elaborarse");
+       }else{
+           if(estado == "en proceso"){
+               throw new PedidoExcepcion("El pedido "+nroPedido+" todavia esta en produccion");
+           }else{
+               System.out.println("El pedido "+nroPedido+" se finalizado con exito");
+           }
+               
+       } 
+    }
    
   /* public void actualizarEstado() throws PedidoExcepcion{
        Scanner scanner = new Scanner(System.in);

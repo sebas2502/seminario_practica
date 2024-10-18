@@ -49,8 +49,8 @@ public class Deposito {
         this.encargado = encargado;
     }
 
-    public void despachar(){
-        System.out.println("Pedido despachado...");
+    public void despacharPedido(Pedido pedido) throws PedidoExcepcion{
+        pedido.despachar();
     }
     
 }

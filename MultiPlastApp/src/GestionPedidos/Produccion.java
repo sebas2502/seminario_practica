@@ -25,31 +25,20 @@ public class Produccion {
         this.pedidos.add(pedido);
     }
     
-    public void iniciarPedido(int codPedido) throws PedidoExcepcion{
-        if(codPedido >=1 && codPedido <= pedidos.size()){
-            pedidos.get(codPedido - 1).iniciarPedido();
-        }else{
-            System.out.println("Numero de pedido incorrecto...");
-        }
+    public void iniciarPedido(Pedido pedido) throws PedidoExcepcion{
+        pedido.iniciar();
     }
     
-    public void finalizarPedido(int codPedido) throws PedidoExcepcion{
-        if(codPedido >=1 && codPedido <= pedidos.size()){
-            pedidos.get(codPedido - 1).finalizarPedido();
-        }else{
-            System.out.println("Numero de pedido incorrecto...");
-        
-        }
+    public void finalizarPedido(Pedido pedido) throws PedidoExcepcion{
+       pedido.finalizar();
        
     }
     
-    public void cancelarPedido(int codPedido) throws PedidoExcepcion{
-        if(codPedido >=1 && codPedido <= pedidos.size()){
-            pedidos.get(codPedido - 1).cancelarPedido();
-        }else{
-            System.out.println("Numero de pedido incorrecto...");
-      }
+    public void cancelarPedido(Pedido pedido) throws PedidoExcepcion{
+       pedido.cancelar();
     }
+    
+
     
     public void listarPedidos(){
         for(Pedido pedido : pedidos){

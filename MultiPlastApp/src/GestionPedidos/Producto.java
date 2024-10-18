@@ -16,9 +16,9 @@ public class Producto {
    
 
     public Producto(int codProd, String nombre, double precio, int cantidad) {
+        this.codProd = codProd;
         this.nombre = nombre;
         this.precio = precio;
-        this.codProd = codProd;
         this.cantidad = cantidad;
     }
 
@@ -27,7 +27,11 @@ public class Producto {
     public String getNombre() {
         return nombre;
     }
-
+    
+    public void setCodProd(int codProd){
+        this.codProd = codProd;
+    }
+    
     public int getCantidad() {
         return cantidad;
     }

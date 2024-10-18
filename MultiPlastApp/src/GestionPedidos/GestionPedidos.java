@@ -46,8 +46,8 @@ public class GestionPedidos {
          //En este apartado, creamos unos pedidos para almacenar en una lista simulando una base de datos 
          Pedido pedido1 = new PedidoEnSucursal("pedido de banios quimicos para evento",40263304,"Contreras Ricardo",1,"en proceso","en sucursal",fecha1,1,"Avenida 9 De Julio 1234");
          Pedido pedido2 = new PedidoEnSucursal("containers de basura para minera de salta, tachos de basuras",12263304,"Gomez Ramon",2,"pendiente","en sucursal",fecha2,2,"Avenida Independencia 34");
-         Pedido pedido3 = new PedidoAdomicilio("bolsones para utencilios varios",11263304,"Duarte Manuel",3,"pendiente","a domicilio",fecha3,5000);
-         Pedido pedido4 = new PedidoAdomicilio("tuberia plastica para instalacion de cloaca",43263304,"Correa Maira",4,"en proceso","a domicilio",fecha4,4200);
+         Pedido pedido3 = new PedidoAdomicilio("bolsones para utencilios varios",11263304,"Duarte Manuel",3,"pendiente","a domicilio",fecha3,5000,"Rolon 1234");
+         Pedido pedido4 = new PedidoAdomicilio("tuberia plastica para instalacion de cloaca",43263304,"Correa Maira",4,"en proceso","a domicilio",fecha4,4200,"Madariaga 1822");
         
         //Aqui creamos unos productos que luego seran agreagdos a las listas de productos
         Producto prd1 = new Producto(1,"banios quimicos",600000,6);
@@ -83,16 +83,19 @@ public class GestionPedidos {
         
         
         
-        //Aqui agreagamos cada lista de productos a su pedido correspondiente
+        /*Aqui agreagamos cada lista de productos a su pedido correspondiente y generamos el importe
+          dandole como parametro el porcentaje de costo de envio que se suma al importe final del pedido
+          si el mismo es despachado al domicilio del cliente
+          o en su defecto un porcentaje de descuento si el pedido es retirado por sucursal
+        */        
         pedido1.agregarProductos(lista1); pedido1.importe = pedido1.generarImporte(10);
-        pedido2.agregarProductos(lista2); 
+        pedido2.agregarProductos(lista2); pedido2.importe = pedido2.generarImporte(5);
         pedido3.agregarProductos(lista3); pedido3.importe = pedido3.generarImporte(10);
-        pedido4.agregarProductos(lista4); 
+        pedido4.agregarProductos(lista4); pedido4.importe = pedido4.generarImporte(2);
         
         
         
-        
-       
+   
         
         
         
@@ -118,7 +121,8 @@ public class GestionPedidos {
             System.out.println("(4) Listar pedidos");
             System.out.println("(5) Buscar Pedido");
             System.out.println("(6) Despachar Pedido");
-            System.out.println("(7) Salir");
+            System.out.println("(7) Cancelar Pedido");
+            System.out.println("(8) Salir");
             System.out.println("===============================================");
             System.out.println("Ingrese una opcion: ");
             
@@ -139,7 +143,7 @@ public class GestionPedidos {
                         System.out.println("Ingrese tipo de entrega: 1 - sucursal / 2 - domicilio");
                     
                         String tipoEntrega = scanner.nextLine();
-                        
+                    
                     
                         
                          while(decision == 's'){
@@ -152,6 +156,8 @@ public class GestionPedidos {
                          System.out.println("Ingrese cantidad del producto solicitado");
                          int cantProd = scanner.nextInt();
                          
+                         /* Desde la clase deposito mediante el metodo verificarMateriaPrima  simulamos la disponibilidad
+                            de materias primas de los productos para la elaboracion de un pedido */
                          boolean materiaPrimaDisponible = deposito.verificarMateriaPrima(codProd);
                          
                          System.out.println("Ingrese precio del producto");
@@ -159,7 +165,7 @@ public class GestionPedidos {
                          
                          
                          if(materiaPrimaDisponible){
-                          Producto p = new Producto(codProd,nomProd+codProd,precioProd,cantProd);
+                          Producto p = new Producto(codProd,nomProd,precioProd,cantProd);
                           
                           productos.add(p);
                           System.out.println("Materias primas disponibles para elaborar el producto, producto agregado a pedido con exito");
@@ -167,13 +173,15 @@ public class GestionPedidos {
                           seAgregaronProductos = true;
                           
                          }else{
-                         throw new PedidoExcepcion("Materias primas no disponibles para elaborar el producto");
+                         System.out.println("Materias primas no disponibles para elaborar el producto");
                         }
                         
 
-                         scanner.nextLine();
+                         
                          System.out.println("Desea continuar cargando productos al pedido? (s/n)");
+                         
                          decision = scanner.next().charAt(0);
+                         
                       
                      }
                          
@@ -237,7 +245,7 @@ public class GestionPedidos {
                               System.out.println("Ingrese domicilio del cliente");
                               String domCli = scanner.nextLine();
                           
-                              System.out.println("Ingrese costo adicional de envio");
+                              System.out.println("Ingrese porcentaje adicional de envio");
                               double costoEnvio = scanner.nextDouble();
                               
                               scanner.nextLine();
@@ -247,7 +255,7 @@ public class GestionPedidos {
                               
                               try {
                              Date fecha = dateFormat.parse(fechaInput);
-                             Pedido pedido = new PedidoAdomicilio(desc,dniCli,apenomCli,nroPedido,"pendiente",tipoEntrega,fecha,costoEnvio);
+                             Pedido pedido = new PedidoAdomicilio(desc,dniCli,apenomCli,nroPedido,"pendiente",tipoEntrega,fecha,costoEnvio,domCli);
                              pedido.agregarProductos(productos);
                              pedido.importe = pedido.generarImporte(costoEnvio);
                              produccion.agregarPedido(pedido);
@@ -287,14 +295,13 @@ public class GestionPedidos {
               for(Pedido pedido : produccion.getPedidos()){
                    if (pedido.getNro() == nroPedido) {
                        pedidoEncontrado = true;
-                       if(pedido.estado.equals("pendiente")){
-                            pedido.setEstado("en proceso");
-                            System.out.println("Pedido numero " + nroPedido + " iniciado con exito...");
-                          
-                            break;
-                       }else{
-                           throw new PedidoExcepcion("No se puede iniciar el pedido numero "+pedido.nroPedido+", por favor consulte el estado del mismo");
-                           
+                      
+                       try{
+                           //Iniciamos un pedido manejando los errores con excepciones
+                           produccion.iniciarPedido(pedido);
+                       }catch(PedidoExcepcion e){
+                          System.out.println("Error al iniciar el pedido");
+                          System.out.println("Error: "+e.getMessage());
                        }
                        
                       
@@ -319,18 +326,15 @@ public class GestionPedidos {
               for(Pedido pedido : produccion.getPedidos()){
                    if (pedido.getNro() == nroPedido) {
                        
-                       if(pedido.estado.equals("en proceso")){
-                            pedido.setEstado("finalizado");
-                            System.out.println("Pedido numero " + nroPedido + " finalizado con exito...");
-                            pedidoEncontrado = true;
-                            break;
-                       }else{
-                           System.out.println("No se puede finalizar el pedido numero "+pedido.nroPedido+", por favor consulte el estado del mismo");
-                           break;
-                       }
-                       
+                      try{
+                          produccion.finalizarPedido(pedido);
+                      }catch(PedidoExcepcion e){
+                          System.out.println("Error al finalizar el pedido");
+                          System.out.println("Error: " + e.getMessage());
+                      }
                       
-              }
+                      pedidoEncontrado = true;
+                    }
               
               }
               if(pedidoEncontrado == false){
@@ -388,14 +392,12 @@ public class GestionPedidos {
                    for(Pedido pedido : produccion.getPedidos()){
                         if (pedido.getNro() == nroPedido) {
                             pedidoEncontrado = true;
-                            if(pedido.estado.equals("finalizado")){
-                                 pedido.setEstado("despachado");
-                                 System.out.println("Pedido numero " + nroPedido + " ha sido despachado con exito...");
-
-                                 break;
-                            }else{
-                                System.out.println("No se puede despachar el pedido numero "+pedido.nroPedido+", por favor consulte el estado del mismo");
-                                break;
+                            
+                            try{
+                              deposito.despacharPedido(pedido);
+                            }catch(PedidoExcepcion e){
+                                System.out.println("Error al despachar el pedido");
+                                System.out.println("Error: "+e.getMessage());
                             }
 
 
@@ -408,7 +410,31 @@ public class GestionPedidos {
 
                }
                                 
-                case 7 ->{
+                case 7 -> {
+                     System.out.println("Ingrese numero de pedido");
+                     int nroPedido  = scanner.nextInt();
+
+
+
+                   boolean pedidoEncontrado = false;
+                   for(Pedido pedido : produccion.getPedidos()){
+                        if (pedido.getNro() == nroPedido) {
+                            pedidoEncontrado = true;
+                            
+                            try{
+                              produccion.cancelarPedido(pedido);
+                            }catch(PedidoExcepcion e){
+                                System.out.println("Error al cancelar el pedido");
+                                System.out.println("Error: "+e.getMessage());
+                            }
+
+
+                   }
+                 }
+                }
+                
+                case 8 ->{
+                    
 
                       System.out.println("Hasta luego!...");
                       flag  = false;
