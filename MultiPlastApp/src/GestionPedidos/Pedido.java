@@ -62,6 +62,7 @@ public abstract class Pedido {
  
     public String getFecha(){
         Date fecha = new Date();
+        fecha = this.fechaEntrega;
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
         String fechaString = formatoFecha.format(fecha);
         
@@ -83,21 +84,33 @@ public abstract class Pedido {
    public void iniciar() throws PedidoExcepcion{
        if( estado == "pendiente" ){
             estado = "en proceso";
-            throw new PedidoExcepcion("El pedido "+nroPedido+" comenzo a elaborarse");
+            System.out.println("El pedido "+nroPedido+" comenzo a elaborarse");
        }else{
-           throw new PedidoExcepcion("No es posible iniciar el pedido, por favor consulte el estado del mismo");
+           if(estado == "cancelado"){
+               throw new PedidoExcepcion("El pedido se ha cancelado");
+           }else{
+               if(estado == "finalizado"){
+                   throw new PedidoExcepcion("El pedido se ha finalizado");
+               }else{
+                   throw new PedidoExcepcion("El pedido ya se finalizo y ha sido despachado");
+               }
+           }
        }
    }
    
    public void finalizar() throws PedidoExcepcion{
        if(estado == "en proceso"){
            estado  = "finalizado";
-          throw new PedidoExcepcion("Se finalizó el pedido "+nroPedido);
+          System.out.println("Se finalizo el pedido con exito...");
        }else{
            if(estado == "pendiente"){
                throw new PedidoExcepcion("El pedido "+nroPedido+" aun no comenzo a elaborarse");
            }else{
-               throw new PedidoExcepcion("El pedido "+nroPedido+" se ha finalizado con exito");
+               if(estado == "cancelado"){
+                 throw new PedidoExcepcion("El pedido "+nroPedido+" se ha cancelado");
+               }else{
+                   throw new PedidoExcepcion("El pedido "+nroPedido+" ya se ha finalizado y despachado");
+               }
            }
        }
    }
@@ -105,15 +118,15 @@ public abstract class Pedido {
    public void cancelar() throws PedidoExcepcion{
        if(estado == "pendiente"){
            this.estado = "cancelado";
-           throw new PedidoExcepcion("El pedido "+nroPedido+" se ha cancelado");
+           System.out.println("El pedido "+nroPedido+" se ha cancelado");
        }else{
            if(estado == "en proceso"){
-               throw new PedidoExcepcion("El pedido "+nroPedido+" no puede cancelarse porque ya esta en produccion");
+               throw new PedidoExcepcion("El pedido "+nroPedido+" ya esta en produccion");
            }else{
                if(estado == "finalizado"){
                    throw new PedidoExcepcion("El pedido "+nroPedido+" no puede cancelarse porque ya esta finalizado");
                }else{
-                   throw new PedidoExcepcion("El pedido "+nroPedido+" no puede cancelarse porque ya esta cancelado");
+                   throw new PedidoExcepcion("El pedido "+nroPedido+" ya se ha despachado");
                }
            }
                
@@ -127,7 +140,15 @@ public abstract class Pedido {
            if(estado == "en proceso"){
                throw new PedidoExcepcion("El pedido "+nroPedido+" todavia esta en produccion");
            }else{
-               System.out.println("El pedido "+nroPedido+" se finalizado con exito");
+               
+               if(estado == "cancelado"){
+                 throw new PedidoExcepcion("El pedido "+nroPedido+" se ha cancelado");
+               }else{
+                   System.out.println("El pedido "+nroPedido+" se ha despachado con exito...");
+                   estado = "despachado";
+               }
+           
+               
            }
                
        } 
