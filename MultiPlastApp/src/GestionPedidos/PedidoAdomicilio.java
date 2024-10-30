@@ -12,14 +12,13 @@ import java.util.List;
  * @author sebac
  */
 public class PedidoAdomicilio extends Pedido{
-    private double importe;
+ 
     private double adicionalEnvio; 
     private String direccion;
     
-    public PedidoAdomicilio(String descripcion, int dniCliente, String apenomCli, int nroPedido, String estado, String tipoEntrega, Date fechaEntrega,double adicionalEnvio, String direccion) {
-        super(descripcion,dniCliente,apenomCli,nroPedido,estado,tipoEntrega,fechaEntrega);
+    public PedidoAdomicilio(String descripcion, int dniCliente, String apenomCli, String estado, String tipoEntrega, String fechaEntrega,double adicionalEnvio, String direccion) {
+        super(descripcion,dniCliente,apenomCli,estado,tipoEntrega,fechaEntrega);
         this.adicionalEnvio = adicionalEnvio;
-        this.importe = importe;
         this.direccion = direccion;
         
         
@@ -50,11 +49,12 @@ public class PedidoAdomicilio extends Pedido{
             double importeCalculado = 0.0;
             
             for(Producto producto : productos){
+                
                 importeCalculado += (producto.getPrecio()) * producto.getCantidad();
             }
             
             importeCalculado = importeCalculado + ((importeCalculado * porcentajeEnvio)/100);
-            
+           
             return importeCalculado;
               
         

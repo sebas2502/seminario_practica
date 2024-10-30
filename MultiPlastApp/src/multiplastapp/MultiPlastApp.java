@@ -15,13 +15,15 @@ import java.sql.Statement;
  */
 public class MultiPlastApp {
 
-   public static void usarDB(){
+   public static void conectarDB(){
        try(
                Connection conn = Conexion.obtenerConexion();
               
                ){
                if(conn.isValid(2)){
-               System.out.println("Conecatdo a db...");
+                   
+                  System.out.println("Conectado a base de datos...");
+               
                }else{
                    System.out.println("No se pudo conectar a db...");
                }
@@ -31,9 +33,10 @@ public class MultiPlastApp {
        }
    };
     
+ 
     public static void main(String[] args) {
         
-       usarDB();
+       conectarDB();
         
     }
     

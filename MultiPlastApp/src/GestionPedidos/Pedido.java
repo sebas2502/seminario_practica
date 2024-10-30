@@ -24,12 +24,12 @@ public abstract class Pedido {
    protected String estado = "pendiente";
    protected List<Producto> productos;
    protected String tipoEntrega = "";
-   protected Date fechaEntrega = new Date();
+   protected String fechaEntrega = "";
    protected Double importe;
  
    
-   public Pedido(String descripcion, int dniCliente, String apenomCli, int nroPedido, String estado, String tipoEntrega, Date fechaEntrega){
-       this.nroPedido = nroPedido;
+   public Pedido(String descripcion, int dniCliente, String apenomCli, String estado, String tipoEntrega, String fechaEntrega){
+     
        this.descripcion = descripcion;
        this.dniCliente = dniCliente;
        this.apenomCli = apenomCli;
@@ -52,21 +52,28 @@ public abstract class Pedido {
        return descripcion;
    }
    
-   public int getNro(){
-       return nroPedido;
-   }
+ 
 
     public void setEstado(String estado) {
         this.estado = estado;
     }
+    
+    public int getDniCli(){
+     
+        return dniCliente;
+    }
+    
+    public String getTipoEntrega(){
+      return tipoEntrega;
+    }
+    
+    public double getImporte(){
+        return importe;
+    }
  
     public String getFecha(){
-        Date fecha = new Date();
-        fecha = this.fechaEntrega;
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
-        String fechaString = formatoFecha.format(fecha);
-        
-        return fechaString;
+       
+        return fechaEntrega;
    }
    
    public void agregarProductos(List<Producto> prods){
@@ -84,7 +91,7 @@ public abstract class Pedido {
    public void iniciar() throws PedidoExcepcion{
        if( estado == "pendiente" ){
             estado = "en proceso";
-            System.out.println("El pedido "+nroPedido+" comenzo a elaborarse");
+            System.out.println("El pedido del cliente "+nroPedido+" comenzo a elaborarse");
        }else{
            if(estado == "cancelado"){
                throw new PedidoExcepcion("El pedido se ha cancelado");
