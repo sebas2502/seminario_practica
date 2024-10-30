@@ -1,1 +1,3 @@
 Manual para el uso del sistema MultiPlastApp
+
+* Para registrar un pedido, primero debe existir el cliente en base de datos, un pedido se asocia a un cliente mediante el DNI
